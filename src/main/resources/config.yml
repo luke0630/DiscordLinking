@@ -1,0 +1,13 @@
+discord-server-long-id: your_id_here
+discord-server-bot-id: your_id_here
+discord-server-linked-role-id: your_id_here
+
+#Code Setting
+###for code effective-time. Unit is sec.
+code-effective-time-sec: 300
+
+#MySQL Setting
+mysql-url: localhost:3306
+mysql-username: your_username_here
+mysql-password: your_password_here
+mysql-database-name: discordLinking
