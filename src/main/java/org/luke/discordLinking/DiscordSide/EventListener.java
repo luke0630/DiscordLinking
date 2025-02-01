@@ -36,7 +36,7 @@ public class EventListener {
             Long discordUserID = linkedData.getDiscordUserID();
             DiscordBot.getUserById(discordUserID, user -> {
                 DiscordLinking.getInstance().getServer().getScheduler().buildTask(DiscordLinking.getInstance(), () -> {
-                            player.sendMessage(text("あなたのマイクラアカウントとDiscordアカウント(" + user.getGlobalName() + "#" + user.getName() + ")とリンクされています。", GREEN));
+                            player.sendMessage(text("あなたのマイクラアカウントはDiscordアカウント(" + user.getGlobalName() + "#" + user.getName() + ")とリンクされています。", GREEN));
                             player.sendMessage(text("リンク先に見覚えがない場合は、/unlink コマンドでリンクし直してください。", RED));
                         })
                         .delay(1L, TimeUnit.SECONDS)
