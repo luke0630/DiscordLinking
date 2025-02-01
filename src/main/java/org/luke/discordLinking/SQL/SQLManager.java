@@ -116,7 +116,8 @@ public class SQLManager {
             statement.executeUpdate("USE " + Data.mysqlDatabaseName);
             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
 
-            if (resultSet.next()) {
+            // データを1行ずつ処理
+            while (resultSet.next()) {
                 UUID mc_uuid = UUID.fromString(resultSet.getString(column_uuid));
                 if (mc_uuid.equals(uuid)) {
                     Long dis_id = resultSet.getLong(column_discordID);
