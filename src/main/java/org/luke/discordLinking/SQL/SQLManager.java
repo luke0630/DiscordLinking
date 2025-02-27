@@ -15,7 +15,7 @@ public class SQLManager {
     static final String tableName = "linked_data";
     final static String column_uuid = "minecraft_uuid";
     static final String column_discordID = "discord_id";
-    final static String column_creationDate = "creation_date";
+    static final String column_linked_data = "link_data";
 
     public static void ConnectionToDatabase() {
         String url = "jdbc:mysql://" + Data.mysqlURL;
