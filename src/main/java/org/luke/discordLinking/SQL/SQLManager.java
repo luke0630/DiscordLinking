@@ -17,7 +17,7 @@ public class SQLManager {
     static final String column_discordID = "discord_id";
     final static String column_creationDate = "creation_date";
 
-    public static void ConnectionToDatabase(MyCallBack.MyCallback result) {
+    public static void ConnectionToDatabase() {
         String url = "jdbc:mysql://" + Data.mysqlURL;
         try {
             // MySQLドライバのロード
@@ -25,14 +25,13 @@ public class SQLManager {
             // データベースへの接続
             System.out.println(Data.mysqlUserName + "   " + Data.mysqlPassword);
             connection = DriverManager.getConnection(url, Data.mysqlUserName, Data.mysqlPassword);
-
-            result.onComplete();
         } catch (Exception ignored) {
 
         }
     }
 
     public static void CreateDatabase(MyCallBack.MyCallback callback) {
+    public static void CreateDatabase() {
         final String dbName = Data.mysqlDatabaseName;
         List<String> executes = new ArrayList<>();
 
@@ -60,8 +59,6 @@ public class SQLManager {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } finally {
-            callback.onComplete();
         }
     }
 
