@@ -1,7 +1,6 @@
 package org.luke.discordLinking;
 
 import com.google.inject.Inject;
-import com.sun.net.httpserver.HttpServer;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.command.SimpleCommand;
