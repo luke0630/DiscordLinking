@@ -54,6 +54,9 @@ public class DiscordLinking {
                 new DiscordBot().MainClass();
             });
         });
+        SQLManager.ConnectionToDatabase();
+        SQLManager.CreateDatabase();
+
 
         //register commands
         CommandManager commandManager = server.getCommandManager();
