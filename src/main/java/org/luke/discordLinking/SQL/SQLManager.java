@@ -54,9 +54,7 @@ public class SQLManager {
         final String dbName = Data.mysqlDatabaseName;
         List<String> executes = new ArrayList<>();
 
-        try {
-            Statement statement = connection.createStatement();
-
+        try (Statement statement = getConnection().createStatement()) {
             // データベース作成を実行
             executes.add("CREATE DATABASE IF NOT EXISTS " + dbName);
 
@@ -105,9 +103,7 @@ public class SQLManager {
     public static UUID getUUIDFromDiscordID(Long discordID) {
         Statement statement = null;
         try {
-            statement = connection.createStatement();
-
-            statement.executeUpdate("USE " + Data.mysqlDatabaseName);
+            Statement statement = getStatement();
             String query = "SELECT * FROM " + tableName;
             ResultSet resultSet = statement.executeQuery(query);
 
@@ -173,7 +169,7 @@ public class SQLManager {
     public static void removeLinkData(UUID uuid) {
         Statement statement = null;
         try {
-            statement = connection.createStatement();
+            Statement statement = getStatement();
 
             statement.executeUpdate("USE " + Data.mysqlDatabaseName);
             statement.executeUpdate("DELETE FROM " + tableName + " WHERE `" + tableName + "`.`" + column_uuid + "` = '" + uuid + "'");
