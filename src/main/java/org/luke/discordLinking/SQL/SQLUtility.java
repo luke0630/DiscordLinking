@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 import static org.luke.discordLinking.SQL.SQLManager.*;
 
@@ -84,7 +85,7 @@ public class SQLUtility {
         return jsonObject;
     }
 
-    public String getDiscordIdByUUID(String mcUUID) {
+    public String getDiscordIdByUUID(UUID mcUUID) {
         try {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM "+ SQLManager.tableName);
             ResultSet rs = stmt.executeQuery();
@@ -94,7 +95,7 @@ public class SQLUtility {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     String uuid = jsonObject.getString("uuid");
 
-                    if(uuid.equals(mcUUID)) {
+                    if(uuid.equals(mcUUID.toString())) {
                         return rs.getString(column_discordID);
                     }
                 }
