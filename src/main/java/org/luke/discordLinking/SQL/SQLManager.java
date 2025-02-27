@@ -120,7 +120,6 @@ public class SQLManager {
     }
 
     public static void removeLinkData(UUID uuid) {
-        Statement statement = null;
         try {
             Statement statement = getStatement();
 
