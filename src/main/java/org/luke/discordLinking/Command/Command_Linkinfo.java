@@ -3,13 +3,9 @@ package org.luke.discordLinking.Command;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
-import org.luke.discordLinking.Data;
 import org.luke.discordLinking.DiscordSide.DiscordBot;
-import org.luke.discordLinking.DiscordSide.DiscordBotEvent;
-import org.luke.discordLinking.SQL.SQLManager;
+import org.luke.discordLinking.SQL.SQLUtility;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -21,15 +17,12 @@ public class Command_Linkinfo implements SimpleCommand {
     public void execute(Invocation invocation) {
         CommandSource source = invocation.source();
         if(source instanceof Player player) {
-            if(SQLManager.isLinkedUser(player.getUniqueId())) {
-                Data.LinkedData linkedData = SQLManager.getLinkedData(player.getUniqueId());
-
-                DiscordBot.getUserById(linkedData.getDiscordUserID(), user -> {
-                    LocalDateTime linkedDate = linkedData.getLinkedLocalDateTime();
+            String discordID = SQLUtility.getDiscordIdByUUID(player.getUniqueId());
+            if(discordID != null) {
+                DiscordBot.getUserById(Long.valueOf(discordID), user -> {
                     player.sendMessage(text("---------------------------------"));
                     player.sendMessage(text("現在のリンク情報", RED));
-                    player.sendMessage(text(player.getUsername() + "("+ player.getUniqueId() +") ←→ " + user.getGlobalName() + "#" + user.getName(), RED));
-                    player.sendMessage(text(linkedDate.getYear() + "年 " + linkedDate.getMonthValue() + "月 " + linkedDate.getDayOfMonth() + "日 / " + linkedDate.getHour() + "時:" + linkedDate.getMinute() + "分 にリンク済み", AQUA));
+                    player.sendMessage(text(user.getGlobalName() + "#" + user.getName(), RED));
                     player.sendMessage(text("---------------------------------"));
                 });
             }
