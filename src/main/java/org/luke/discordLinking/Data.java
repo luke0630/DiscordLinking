@@ -4,6 +4,7 @@ public class Data {
 
     public static Long discordLinkedRoleID = null;
     public static Long discordServerID = null;
+    public static Long discordChannelID = null;
     public static String discordBotID = "";
     public static String mysqlURL = "";
     public static String mysqlUserName = "";
