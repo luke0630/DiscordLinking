@@ -1,6 +1,7 @@
 package org.luke.discordLinking.Auth;
 
 import com.velocitypowered.api.proxy.Player;
+import org.luke.discordLinking.Data;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -15,7 +16,6 @@ public class AuthCodeManager {
     private final char[] abcList = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
     private final int chara_count = 6;
-    private final long auth_limit_second = 240;
 
     public AuthCodeManager() {
         startCleanupTask();
@@ -43,7 +43,7 @@ public class AuthCodeManager {
             }
         }
 
-        AuthData authData = new AuthData(code.toString(), player.getUsername(), auth_limit_second);
+        AuthData authData = new AuthData(code.toString(), player.getUsername(), Data.effectiveTimeForCode);
         authDataMap.put(player.getUniqueId(), authData);
         return authData;
     }
