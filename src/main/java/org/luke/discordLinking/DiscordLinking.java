@@ -32,6 +32,7 @@ import java.util.Objects;
         version = "1.0"
 )
 public class DiscordLinking {
+    @Getter
     private final ProxyServer server;
     private final Logger logger;
     public static YamlDocument settingConfig;
@@ -92,10 +93,6 @@ public class DiscordLinking {
             throw new IllegalStateException("DiscordLinking instance has not been initialized yet.");
         }
         return instance;
-    }
-
-    public ProxyServer getServer() {
-        return server;
     }
 
     @Subscribe
