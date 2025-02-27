@@ -52,6 +52,7 @@ public class DiscordLinking {
         SQLManager.ConnectionToDatabase();
         SQLManager.CreateDatabase();
 
+        DiscordBot.MainClass();
 
         //register commands
         CommandManager commandManager = server.getCommandManager();
