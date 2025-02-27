@@ -105,4 +105,46 @@ public class SQLUtility {
         }
         return null;
     }
+
+    public void unlinkMinecraftAccount(Long discordID, Player player) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM "+ SQLManager.tableName +" WHERE " + column_discordID + " = ?");
+            stmt.setLong(1, discordID);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                JSONArray jsonArray = new JSONArray(rs.getString(column_linked_data));
+                for(int i=0;i < jsonArray.length();i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String uuid = jsonObject.getString("uuid");
+                    if(Objects.equals(uuid, player.getUniqueId().toString())) {
+                        jsonArray.remove(i);
+
+                        if(jsonArray.isEmpty()) {
+                            PreparedStatement update = connection.prepareStatement("DELETE FROM "+ tableName +" WHERE "+ column_discordID +" = ?");
+                            update.setLong(1, discordID);
+                            update.executeUpdate();
+                        } else {
+                            String sql = "UPDATE "+ tableName +" SET "+ column_linked_data +" = ? WHERE "+ column_discordID +" = ?";
+                            PreparedStatement update = connection.prepareStatement(sql);
+                            update.setLong(1, discordID);
+
+                            update.setString(1, jsonArray.toString());
+                            update.setString(2, discordID.toString());
+
+                            update.executeUpdate();
+                        }
+
+                        player.disconnect(
+                                Component.text(
+                                        "リンク解除されたため切断されました。"
+                                )
+                        );
+                        break;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
