@@ -11,6 +11,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import dev.dejvokep.boostedyaml.YamlDocument;
+import lombok.Getter;
 import org.luke.discordLinking.Auth.AuthCodeManager;
 import org.luke.discordLinking.Command.Command_Linkinfo;
 import org.luke.discordLinking.Command.Command_Unlink;
@@ -33,9 +34,7 @@ import java.util.Objects;
 public class DiscordLinking {
     private final ProxyServer server;
     private final Logger logger;
-
     public static YamlDocument settingConfig;
-
     private static DiscordLinking instance;
 
     @Getter
