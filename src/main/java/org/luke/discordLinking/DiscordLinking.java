@@ -49,11 +49,6 @@ public class DiscordLinking {
         //load setting config data
         Load(dataDirectory);
         //connect to database
-        SQLManager.ConnectionToDatabase(() -> {
-            SQLManager.CreateDatabase(() -> {
-                new DiscordBot().MainClass();
-            });
-        });
         SQLManager.ConnectionToDatabase();
         SQLManager.CreateDatabase();
 
