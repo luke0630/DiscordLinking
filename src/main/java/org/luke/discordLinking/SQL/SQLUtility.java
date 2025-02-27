@@ -12,7 +12,7 @@ import static org.luke.discordLinking.SQL.SQLManager.*;
 
 @UtilityClass
 public class SQLUtility {
-    public void putData(Long discordID, String mcUUID) {
+    public void putData(Long discordID, UUID mcUUID) {
         try {
             JSONArray jsonArray = getLinkedDataByDiscordID(discordID);
             if(jsonArray != null) {
@@ -21,7 +21,7 @@ public class SQLUtility {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     String uuid = jsonObject.getString("uuid");
 
-                    if(uuid.equals(mcUUID)) {
+                    if(Objects.equals(uuid, mcUUID.toString())) {
                         alreadyLinked = true;
                         break;
                     }
@@ -73,13 +73,13 @@ public class SQLUtility {
         return null;
     }
 
-    public JSONObject getJSONData(String mcUUID) {
+    public JSONObject getJSONData(UUID mcUUID) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedString = formatter.format(timestamp);
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("uuid", mcUUID);
+        jsonObject.put("uuid", mcUUID.toString());
         jsonObject.put("timestamp", formattedString);
 
         return jsonObject;
