@@ -13,7 +13,7 @@ public class MojangAPI {
             String urlString = "https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.replace("-","");
             URL url = new URL(urlString);
 
-            HttpURLConnection connection = null;
+            HttpURLConnection connection;
             connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");
