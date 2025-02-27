@@ -11,6 +11,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import dev.dejvokep.boostedyaml.YamlDocument;
+import org.luke.discordLinking.Auth.AuthCodeManager;
 import org.luke.discordLinking.Command.Command_Linkinfo;
 import org.luke.discordLinking.Command.Command_Unlink;
 import org.luke.discordLinking.DiscordSide.DiscordBot;
@@ -37,7 +38,8 @@ public class DiscordLinking {
 
     private static DiscordLinking instance;
 
-    private HttpServer httpServer;
+    @Getter
+    private AuthCodeManager authCodeManager;
 
     @Inject
     public DiscordLinking(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
@@ -45,6 +47,8 @@ public class DiscordLinking {
         this.logger = logger;
 
         instance = this;
+
+        authCodeManager = new AuthCodeManager();
 
         //load setting config data
         Load(dataDirectory);
