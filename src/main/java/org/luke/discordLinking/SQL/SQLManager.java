@@ -119,52 +119,6 @@ public class SQLManager {
         return null;
     }
 
-    public static Data.LinkedData getLinkedData(UUID uuid) {
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-
-            statement.executeUpdate("USE " + Data.mysqlDatabaseName);
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
-
-            // データを1行ずつ処理
-            while (resultSet.next()) {
-                UUID mc_uuid = UUID.fromString(resultSet.getString(column_uuid));
-                if (mc_uuid.equals(uuid)) {
-                    Long dis_id = resultSet.getLong(column_discordID);
-                    String creation_date = resultSet.getString(column_creationDate);
-
-                    String[] splitDateTime = creation_date.split("_");
-                    String[] date = splitDateTime[0].split("/");
-                    String[] time = splitDateTime[1].split(":");
-
-                    LocalDateTime localDateTime = LocalDateTime.of(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), Integer.parseInt(time[0]), Integer.parseInt(time[1]));
-                    return new Data.LinkedData(dis_id, localDateTime);
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
-    public static void addLinkData(UUID uuid, Data.LinkedData linkedData) {
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-
-            String minecraft_uuid = uuid.toString();
-            String discord_id = linkedData.getDiscordUserID().toString();
-            String creation_date = linkedData.getLinkedLocalDateTime().getYear() + "/" + linkedData.getLinkedLocalDateTime().getMonthValue() + "/" + linkedData.getLinkedLocalDateTime().getDayOfMonth() + "_" +
-                    linkedData.getLinkedLocalDateTime().getHour() + ":" + linkedData.getLinkedLocalDateTime().getMinute();
-
-            statement.executeUpdate("USE " + Data.mysqlDatabaseName);
-            statement.executeUpdate("INSERT INTO linked_data (" + column_uuid + ", " + column_discordID + ", " + column_creationDate + ") VALUES ('" + minecraft_uuid + "', '" + discord_id + "', '" + creation_date + "')");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static void removeLinkData(UUID uuid) {
         Statement statement = null;
         try {
