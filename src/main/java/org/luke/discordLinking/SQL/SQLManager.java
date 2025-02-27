@@ -61,10 +61,9 @@ public class SQLManager {
             executes.add("USE " + dbName);
 
             String createTable = "CREATE TABLE IF NOT EXISTS " + tableName + " ( " +
-                    column_uuid + " VARCHAR(50) NOT NULL, " +
-                    column_discordID + " VARCHAR(50) NOT NULL," +
-                    column_creationDate + " VARCHAR(50) NOT NULL," +
-                    " PRIMARY KEY ( " + column_uuid + " )" +
+                    column_discordID + " VARCHAR(60) NOT NULL," +
+                    column_linked_data + " JSON NOT NULL, " +
+                    " PRIMARY KEY ( " + column_discordID + " )" +
                     " );";
 
             executes.add(createTable);
