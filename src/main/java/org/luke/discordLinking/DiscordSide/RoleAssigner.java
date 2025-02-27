@@ -1,11 +1,8 @@
 package org.luke.discordLinking.DiscordSide;
 
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import org.luke.discordLinking.Data;
-import org.luke.discordLinking.DiscordLinking;
 
 import static org.luke.discordLinking.DiscordSide.DiscordBot.getMemberById;
 
