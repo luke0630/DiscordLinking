@@ -76,6 +76,7 @@ public class DiscordLinking {
 
         Data.discordLinkedRoleID = settingConfig.getLong("discord-server-linked-role-id");
         Data.discordServerID = settingConfig.getLong("discord-server-long-id");
+        Data.discordChannelID = settingConfig.getLong("discord-server-channel-id");
         Data.discordBotID = settingConfig.getString("discord-server-bot-id");
         Data.mysqlURL = settingConfig.getString("mysql-url");
         Data.mysqlUserName = settingConfig.getString("mysql-username");
