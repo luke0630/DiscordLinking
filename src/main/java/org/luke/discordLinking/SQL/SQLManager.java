@@ -30,7 +30,26 @@ public class SQLManager {
         }
     }
 
-    public static void CreateDatabase(MyCallBack.MyCallback callback) {
+    public static Connection getConnection() {
+        try {
+            if(connection == null || connection.isClosed()) {
+                ConnectionToDatabase();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return connection;
+    }
+
+    public static Statement getStatement() {
+        try (Statement stmt = getConnection().createStatement()) {
+            stmt.executeUpdate("USE " + Data.mysqlDatabaseName);
+            return stmt;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void CreateDatabase() {
         final String dbName = Data.mysqlDatabaseName;
         List<String> executes = new ArrayList<>();
