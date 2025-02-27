@@ -1,10 +1,9 @@
 package org.luke.discordLinking.SQL;
 
+import org.json.JSONObject;
 import org.luke.discordLinking.Data;
-import org.luke.discordLinking.MyCallBack;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
