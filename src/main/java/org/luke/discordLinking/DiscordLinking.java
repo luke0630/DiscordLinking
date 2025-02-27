@@ -37,7 +37,7 @@ public class DiscordLinking {
     private static DiscordLinking instance;
 
     @Getter
-    private AuthCodeManager authCodeManager;
+    private final AuthCodeManager authCodeManager;
 
     @Inject
     public DiscordLinking(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
