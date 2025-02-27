@@ -16,7 +16,6 @@ import org.luke.discordLinking.Auth.AuthCodeManager;
 import org.luke.discordLinking.Command.Command_Linkinfo;
 import org.luke.discordLinking.Command.Command_Unlink;
 import org.luke.discordLinking.DiscordSide.DiscordBot;
-import org.luke.discordLinking.DiscordSide.EventListener;
 import org.luke.discordLinking.SQL.SQLManager;
 import org.slf4j.Logger;
 
