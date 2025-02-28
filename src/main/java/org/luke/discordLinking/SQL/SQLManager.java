@@ -77,47 +77,6 @@ public class SQLManager {
         }
     }
 
-    //Utility class
-    public static boolean isLinkedUser(UUID uuid) {
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-
-            statement.executeUpdate("USE " + Data.mysqlDatabaseName);
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
-            if (resultSet.next()) {
-                UUID mc_uuid = UUID.fromString(resultSet.getString(column_uuid));
-                if (mc_uuid.equals(uuid)) {
-                    return true;
-                }
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return false;
-    }
-
-    public static UUID getUUIDFromDiscordID(Long discordID) {
-        Statement statement = null;
-        try {
-            Statement statement = getStatement();
-            String query = "SELECT * FROM " + tableName;
-            ResultSet resultSet = statement.executeQuery(query);
-
-            while (resultSet.next()) {
-                Long discordDataID = resultSet.getLong(column_discordID);
-                if (discordDataID.equals(discordID)) {
-                    return UUID.fromString(resultSet.getString(column_uuid));
-                }
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
     public static void removeLinkData(UUID uuid) {
         try {
             Statement statement = getStatement();
