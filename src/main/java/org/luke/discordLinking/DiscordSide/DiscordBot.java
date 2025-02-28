@@ -44,6 +44,7 @@ public class DiscordBot {
                 Member botMember = guild.getSelfMember();
                 if (!botMember.hasPermission(channel, Permission.MESSAGE_SEND)) {
                     System.out.println("Bot にメッセージ送信権限がありません！");
+                    return;
                 }
                 channel.sendMessage("マインクラフトの画面に表示されているコードを入力する場合は**「コードを入力」**ボタンを押してください")
                         .addActionRow(
