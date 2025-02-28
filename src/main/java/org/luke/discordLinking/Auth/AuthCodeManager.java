@@ -74,7 +74,7 @@ public class AuthCodeManager {
     }
 
     public Map.Entry<UUID, AuthData> verifyCode(String inputCode) {
-        var authData = getAuthDataFromCode(inputCode);
+        var authData = getAuthDataFromCode(sanitizeAuthCode(inputCode));
         if(authData != null) {
             authDataMap.remove(authData.getKey());
             return authData;
@@ -82,6 +82,11 @@ public class AuthCodeManager {
             return null;
         }
     }
+
+    private String sanitizeAuthCode(String inputCode) {
+        return inputCode.replaceAll("[^a-zA-Z0-9]", "");
+    }
+
 
     private Map.Entry<UUID, AuthData> getAuthDataFromCode(String code) {
         for(var entry : authDataMap.entrySet()) {
