@@ -5,10 +5,12 @@ import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.luke.discordLinking.DiscordLinking;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.luke.discordLinking.SQL.SQLManager.*;
