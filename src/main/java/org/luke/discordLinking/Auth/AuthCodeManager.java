@@ -15,7 +15,7 @@ public class AuthCodeManager {
     private static final SecureRandom random = new SecureRandom();
     private final char[] abcList = "abcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
 
-    private final int chara_count = 6;
+    private final int chara_count = 8;
 
     public AuthCodeManager() {
         startCleanupTask();
