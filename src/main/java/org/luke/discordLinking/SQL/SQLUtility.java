@@ -109,7 +109,7 @@ public class SQLUtility {
         return null;
     }
 
-    public void unlinkMinecraftAccount(Long discordID, Player player) {
+    public boolean unlinkMinecraftAccount(Long discordID, UUID targetUUID) {
         try {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM "+ SQLManager.tableName +" WHERE " + column_discordID + " = ?");
             stmt.setLong(1, discordID);
@@ -119,7 +119,7 @@ public class SQLUtility {
                 for(int i=0;i < jsonArray.length();i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     String uuid = jsonObject.getString("uuid");
-                    if(Objects.equals(uuid, player.getUniqueId().toString())) {
+                    if(Objects.equals(uuid, targetUUID.toString())) {
                         jsonArray.remove(i);
 
                         if(jsonArray.isEmpty()) {
