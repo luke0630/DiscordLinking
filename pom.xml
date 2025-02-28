@@ -59,7 +59,7 @@
                         <configuration>
                             <target>
                                 <copy file="${project.build.directory}/${project.build.finalName}.jar"
-                                      todir="C:\Users\ryuto\Downloads\TestServer\plugins"
+                                      todir="Z:\MCserver\proxy\plugins\"
                                       overwrite="true" />
                             </target>
                         </configuration>
