@@ -14,7 +14,7 @@ public class Command_Unlink implements SimpleCommand {
         CommandSource source = invocation.source();
         if(source instanceof  Player player) {
             String discordID = SQLUtility.getDiscordIdByUUID(player.getUniqueId());
-            SQLUtility.unlinkMinecraftAccount(Long.valueOf(discordID), player);
+            SQLUtility.unlinkMinecraftAccount(Long.valueOf(discordID), player.getUniqueId());
         }
     }
 
