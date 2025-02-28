@@ -99,6 +99,34 @@ public class DiscordBotEvent extends ListenerAdapter {
                     event.reply("あなたのDiscordアカウントはリンクされていません。").setEphemeral(true).queue();
                 }
             }
+            case "button_unlink" -> {
+                JSONArray jsonArray = SQLUtility.getLinkedDataByDiscordID(event.getUser().getIdLong());
+                if(jsonArray != null) {
+                    List<ActionComponent> buttons = new ArrayList<>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                        String uuid = jsonObject.getString("uuid");
+                        String mcName = MojangAPI.getUsernameFromUUID(uuid);
+                        String button_id = "button_player:" + uuid;
+                        if(mcName != null) {
+                            buttons.add(
+                                    Button.success(button_id, mcName)
+                            );
+                        } else {
+                            buttons.add(
+                                    Button.success(button_id, "*名前を取得できませんでした。(UUID:" + uuid + ")")
+                            );
+                        }
+                    }
+                    event.reply("リンク解除したいマインクラフトアカウントを選択してください。")
+                            .addActionRow(buttons)
+                            .setEphemeral(true)
+                            .queue();
+                } else {
+                    event.reply("あなたのDiscordアカウントはリンクされていません。").setEphemeral(true).queue();
+                }
+            }
         }
     }
 
