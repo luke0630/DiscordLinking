@@ -46,10 +46,15 @@ public class DiscordBot {
                     System.out.println("Bot にメッセージ送信権限がありません！");
                     return;
                 }
-                channel.sendMessage("マインクラフトの画面に表示されているコードを入力する場合は**「コードを入力」**ボタンを押してください")
+
+                String initMessage =
+                        "***コードを入力 ->*** マイクラ鯖アクセス時に表示されるコードを入力してリンクする" +
+                        "\n***リンク状況を確認 ->*** 現在リンクされているアカウントの一覧を確認" +
+                        "\n***リンクを解除する ->*** アカウントを選択してそのアカウントとのリンクを解除する";
+                channel.sendMessage(initMessage)
                         .addActionRow(
                                 Button.success("button_enter_code", "コードを入力"),
-                                Button.primary("button_current_link", "現在のリンク状況を確認する"),
+                                Button.primary("button_current_link", "リンク状況を確認"),
                                 Button.danger("button_unlink", "リンクを解除する")
                         )
                         .queue( message -> selectOptionMessage = message );
