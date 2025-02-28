@@ -33,18 +33,20 @@ public class EventListener {
                         .schedule();
             });
         } else {
-            String code;
+            StringBuilder code = new StringBuilder();
             AuthData authData = getInstance().getAuthCodeManager().getPlayersAuthData(uuid);
 
-            // コード入力待ちかどうか
-            if (authData != null) {
-                code = authData.getCode();
-            } else {
+            // authDataがNULLだったら、コードを生成
+            if (authData == null) {
                 authData = getInstance().getAuthCodeManager().generateAuthCode(event.getPlayer());
-                code = authData.getCode();
             }
 
+            code.append(authData.getCode());
+
             long left_expiration = (authData.getExpirationTime() - System.currentTimeMillis()) / 1000;
+
+            int center_of_code = code.length() / 2;
+            code.insert(center_of_code, " ");
 
             player.disconnect(
                     text("参加するにはDiscordアカウントを連携させる必要があります。\n", RED)
