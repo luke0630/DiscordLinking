@@ -13,7 +13,7 @@ public class AuthCodeManager {
     private final Map<UUID, AuthData> authDataMap = new HashMap<>();
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private static final SecureRandom random = new SecureRandom();
-    private final char[] abcList = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+    private final char[] abcList = "abcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
 
     private final int chara_count = 6;
 
@@ -30,11 +30,7 @@ public class AuthCodeManager {
             code.setLength(0);
 
             for (int i = 0; i < chara_count; i++) {
-                if (random.nextBoolean()) {
-                    code.append(abcList[random.nextInt(abcList.length)]);
-                } else {
-                    code.append(random.nextInt(10));
-                }
+                code.append(abcList[random.nextInt(abcList.length)]);
             }
 
             if (!usedCodes.contains(code.toString())) {
