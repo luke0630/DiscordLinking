@@ -137,17 +137,20 @@ public class SQLUtility {
                             update.executeUpdate();
                         }
 
-                        player.disconnect(
+
+                        Optional<Player> player = DiscordLinking.getInstance().getServer().getPlayer(targetUUID);
+                        player.ifPresent(value -> value.disconnect(
                                 Component.text(
                                         "リンク解除されたため切断されました。"
                                 )
-                        );
-                        break;
+                        ));
+                        return true;
                     }
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return false;
     }
 }
