@@ -32,7 +32,23 @@ public class DiscordBotEvent extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
-        switch(event.getComponentId()) {
+        String componentId = event.getComponentId();
+        if(componentId.contains(":")) {
+            String[] split = componentId.split(":");
+            if(Objects.equals(split[0], "button_player")) {
+                String uuid = split[1];
+                boolean isSuccessful = SQLUtility.unlinkMinecraftAccount(event.getUser().getIdLong(), UUID.fromString(uuid));
+                if(isSuccessful) {
+                    String username = MojangAPI.getUsernameFromUUID(uuid);
+                    event.reply(
+                            "## **以下のアカウントとのリンクを解除しました。**" +
+                            "\n```" + username + " (" + uuid + ")```"
+                    ).setEphemeral(true).queue();
+                }
+                return;
+            }
+        }
+        switch(componentId) {
             case "button_enter_code" -> {
                 TextInput input = TextInput.create("input_code", "画面に表示されているコードを入力(コードの間にある空白を入れる必要はありません)", TextInputStyle.SHORT)
                         .setPlaceholder("コードの間にある空白を入れる必要はありません")
