@@ -3,6 +3,7 @@ package org.luke.discordLinking;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.LoginEvent;
 import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.luke.discordLinking.Auth.AuthData;
 
 import java.util.*;
@@ -49,12 +50,14 @@ public class EventListener {
             code.insert(center_of_code, " ");
 
             player.disconnect(
-                    text("参加するにはDiscordアカウントを連携させる必要があります。\n", RED)
-                            .append(text("超生活鯖のディスコードサーバーの「連携方法」チャンネルをご覧ください。\n\n", WHITE))
-                            .append(text("\n\nコード: " + code, WHITE))
-                            .append(text("\n\nコードの有効時間 残り: " + left_expiration + "秒"))
-                            .append(text("\n(もう一度参加しなおすと画面が更新されます)", GREEN))
-                            .append(text("\nコードの有効時間を過ぎた場合もう一度サーバーに参加すれば新規コードが生成されます", RED))
+                    text("", RED)
+                            .append(text("\n超生活鯖のDiscordサーバー内「連携方法」チャンネルをご確認ください。", AQUA))
+                            .append(text("\n\nコード", GOLD))
+                            .append(text("\n" + code, WHITE).decorate(TextDecoration.UNDERLINED))
+                            .append(text("\n\n\nコードの有効時間", RED))
+                            .append(text("\n" + left_expiration + "秒", WHITE))
+                            .append(text("\n\n※ 参加し直すたびに新しいコードが発行され、", GREEN))
+                            .append(text("\n以前のコードは無効になります。", GREEN))
             );
         }
     }
