@@ -46,7 +46,6 @@ public class SQLUtility {
                     update.executeUpdate();
                 }
             } else {
-                System.out.println("存在しないため作成しました");
                 PreparedStatement insert = connection.prepareStatement(
                         "INSERT INTO " + SQLManager.tableName + " (" + SQLManager.column_discordID + ", " + column_linked_data + ") VALUES (?, ?)"
                 );
