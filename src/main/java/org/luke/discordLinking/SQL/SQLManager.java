@@ -76,16 +76,4 @@ public class SQLManager {
             throw new RuntimeException(e);
         }
     }
-
-    public static void removeLinkData(UUID uuid) {
-        try {
-            Statement statement = getStatement();
-
-            statement.executeUpdate("USE " + Data.mysqlDatabaseName);
-            statement.executeUpdate("DELETE FROM " + tableName + " WHERE `" + tableName + "`.`" + column_uuid + "` = '" + uuid + "'");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }
