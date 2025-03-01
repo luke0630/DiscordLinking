@@ -37,10 +37,11 @@ public class EventListener {
             StringBuilder code = new StringBuilder();
             AuthData authData = getInstance().getAuthCodeManager().getPlayersAuthData(uuid);
 
-            // authDataがNULLだったら、コードを生成
-            if (authData == null) {
-                authData = getInstance().getAuthCodeManager().generateAuthCode(event.getPlayer());
+            // 接続する度にコードを生成し、今までのコードを削除する
+            if(authData != null) {
+                getInstance().getAuthCodeManager().removeCode(authData.getCode());
             }
+            authData = getInstance().getAuthCodeManager().generateAuthCode(event.getPlayer());
 
             code.append(authData.getCode());
 
