@@ -8,13 +8,22 @@ import org.luke.discordLinking.SQL.SQLUtility;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+
 public class Command_Unlink implements SimpleCommand {
     @Override
     public void execute(Invocation invocation) {
         CommandSource source = invocation.source();
         if(source instanceof  Player player) {
             String discordID = SQLUtility.getDiscordIdByUUID(player.getUniqueId());
-            SQLUtility.unlinkMinecraftAccount(Long.valueOf(discordID), player.getUniqueId());
+            player.sendMessage(
+                    text("リンク解除を行っています...", AQUA)
+            );
+            if(!SQLUtility.unlinkMinecraftAccount(Long.valueOf(discordID), player.getUniqueId())) {
+                player.sendMessage(text("リンク解除に失敗しました。", RED));
+            }
         }
     }
 
