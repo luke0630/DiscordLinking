@@ -2,7 +2,6 @@ package org.luke.discordLinking.DiscordSide;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
-import org.luke.discordLinking.Data;
 
 import static org.luke.discordLinking.DiscordLinking.getInstance;
 import static org.luke.discordLinking.DiscordSide.DiscordBot.getMemberById;
@@ -15,12 +14,7 @@ public class RoleAssigner {
     }
 
     public static void assignRole(Long userId, Long roleId, RoleMode mode) {
-        Guild guild = DiscordBot.getJda().getGuildById(Data.discordServerID);
-        if (guild == null) {
-            System.out.println("Guild not found!");
-            return;
-        }
-
+        Guild guild = DiscordBot.getGuild();
         getMemberById(guild, userId, member -> {
             if (member == null) {
                 getInstance().getLogger().warn("メンバーが見つかりませんでした。 ユーザーid: {}", userId);
