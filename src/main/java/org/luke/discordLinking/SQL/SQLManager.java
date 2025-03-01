@@ -41,15 +41,6 @@ public class SQLManager {
         return connection;
     }
 
-    public static Statement getStatement() {
-        try (Statement stmt = getConnection().createStatement()) {
-            stmt.executeUpdate("USE " + Data.mysqlDatabaseName);
-            return stmt;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static void CreateDatabase() {
         final String dbName = Data.mysqlDatabaseName;
         List<String> executes = new ArrayList<>();
