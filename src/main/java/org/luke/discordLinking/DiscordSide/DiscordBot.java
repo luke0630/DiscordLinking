@@ -49,6 +49,7 @@ public class DiscordBot {
                     return;
                 }
 
+                DiscordBotUtility.deleteOwnMessages(channel);
                 String initMessage =
                         "***コードを入力 ->*** マイクラ鯖アクセス時に表示されるコードを入力してリンクする" +
                         "\n***リンク状況を確認 ->*** 現在リンクされているアカウントの一覧を確認" +
