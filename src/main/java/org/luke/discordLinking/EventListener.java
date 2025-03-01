@@ -26,14 +26,12 @@ public class EventListener {
 
         String discordID = SQLUtility.getDiscordIdByUUID(uuid);
         if (discordID != null) {
-            DiscordBot.getUserById(Long.valueOf(discordID), user -> {
-                getInstance().getServer().getScheduler().buildTask(getInstance(), () -> {
-                            player.sendMessage(text("あなたのマイクラアカウントはDiscordアカウント(" + user.getGlobalName() + "#" + user.getName() + ")とリンクされています。", GREEN));
-                            player.sendMessage(text("リンク先に見覚えがない場合は、/unlink コマンドでリンクし直してください。", RED));
-                        })
-                        .delay(1L, TimeUnit.SECONDS)
-                        .schedule();
-            });
+            DiscordBot.getUserById(Long.valueOf(discordID), user -> getInstance().getServer().getScheduler().buildTask(getInstance(), () -> {
+                        player.sendMessage(text("あなたのマイクラアカウントはDiscordアカウント(" + user.getGlobalName() + "#" + user.getName() + ")とリンクされています。", GREEN));
+                        player.sendMessage(text("リンク先に見覚えがない場合は、/unlink コマンドでリンクし直してください。", RED));
+                    })
+                    .delay(1L, TimeUnit.SECONDS)
+                    .schedule());
         } else {
             StringBuilder code = new StringBuilder();
             AuthData authData = getInstance().getAuthCodeManager().getPlayersAuthData(uuid);
