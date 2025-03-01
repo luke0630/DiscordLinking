@@ -12,6 +12,8 @@ import org.luke.discordLinking.Data;
 
 import java.util.function.Consumer;
 
+import static org.luke.discordLinking.DiscordLinking.getInstance;
+
 public class DiscordBot {
     @Getter
     private static JDA jda = null;
@@ -35,33 +37,34 @@ public class DiscordBot {
 
             guild = jda.getGuildById(Data.discordServerID);
             if(guild == null) {
-                System.out.println("サーバーを取得できませんでした。サーバーIDが間違っている可能性があります");
+                getInstance().getLogger().error("サーバーを取得できませんでした。サーバーIDが間違っている可能性があります");
                 return;
             }
 
             channel = guild.getTextChannelById(Data.discordChannelID);
             if(channel == null) {
-                System.out.println("テキストチャンネルが見つかりませんでした。チャンネルIDが間違っている可能性があります");
+                getInstance().getLogger().error("テキストチャンネルが見つかりませんでした。チャンネルIDが間違っている可能性があります");
             } else {
                 Member botMember = guild.getSelfMember();
                 if (!botMember.hasPermission(channel, Permission.MESSAGE_SEND)) {
-                    System.out.println("Bot にメッセージ送信権限がありません！");
+                    getInstance().getLogger().error("Bot にメッセージ送信権限がありません！");
                     return;
                 }
 
-                DiscordBotUtility.deleteOwnMessages(channel);
-                String initMessage =
-                        "***コードを入力 ->*** マイクラ鯖アクセス時に表示されるコードを入力してリンクする" +
-                        "\n***リンク状況を確認 ->*** 現在リンクされているアカウントの一覧を確認" +
-                        "\n***リンクを解除する ->*** アカウントを選択してそのアカウントとのリンクを解除する";
-                channel.sendMessage(initMessage)
-                        .addActionRow(
-                                Button.success("button_enter_code", "コードを入力"),
-                                Button.primary("button_current_link", "リンク状況を確認"),
-                                Button.danger("button_unlink", "リンクを解除する")
-                        )
-                        .setSuppressedNotifications(true)
-                        .queue( message -> selectOptionMessage = message );
+                DiscordBotUtility.deleteOwnMessages(channel, () -> {
+                    String initMessage =
+                            "***コードを入力 ->*** マイクラ鯖アクセス時に表示されるコードを入力してリンクする" +
+                                    "\n***リンク状況を確認 ->*** 現在リンクされているアカウントの一覧を確認" +
+                                    "\n***リンクを解除する ->*** アカウントを選択してそのアカウントとのリンクを解除する";
+                    channel.sendMessage(initMessage)
+                            .addActionRow(
+                                    Button.success("button_enter_code", "コードを入力"),
+                                    Button.primary("button_current_link", "リンク状況を確認"),
+                                    Button.danger("button_unlink", "リンクを解除する")
+                            )
+                            .setSuppressedNotifications(true)
+                            .queue( message -> selectOptionMessage = message );
+                });
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -71,9 +74,7 @@ public class DiscordBot {
 
     // Use load because guild.getMemberById is cached
     public static void getUserById(Long userId, Consumer<User> callback) {
-        jda.retrieveUserById(userId).queue(callback, failure -> {
-            System.out.println("ユーザーが見つかりませんでした。 id: " + userId);
-        });
+        jda.retrieveUserById(userId).queue(callback, failure -> getInstance().getLogger().warn("ユーザーが見つかりませんでした。id: {}", userId));
     }
 
     // Use load because guild.getMemberById is cached

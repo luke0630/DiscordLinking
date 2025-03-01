@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.luke.discordLinking.DiscordLinking.getInstance;
 import static org.luke.discordLinking.SQL.SQLManager.*;
 
 @UtilityClass
@@ -37,7 +38,7 @@ public class SQLUtility {
                 }
 
                 if(alreadyLinked) {
-                    System.out.println("すでに紐づけ済みです uuid:" + mcUUID);
+                    getInstance().getLogger().warn("すでに紐づけ済みです uuid:{}", mcUUID);
                 } else {
                     jsonArray.put(getJSONData(mcUUID));
 

@@ -9,6 +9,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static org.luke.discordLinking.DiscordLinking.getInstance;
+
 public class AuthCodeManager {
     private final Map<UUID, AuthData> authDataMap = new HashMap<>();
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -51,12 +53,10 @@ public class AuthCodeManager {
     public void startCleanupTask() {
         Runnable task = () -> authDataMap.entrySet().removeIf(entry -> {
             if (entry.getValue().isExpired()) {
-                System.out.println(
-                        entry.getValue().getPlayer_displayName() +
-                        "(" +
-                        entry.getKey() +
-                        ")" +
-                        " の認証コードは無効になりました。"
+                getInstance().getLogger().info(
+                        "{} ({}) の認証コードは無効になりました",
+                        entry.getValue().getPlayer_displayName(),
+                        entry.getKey()
                 );
                 return true;
             }

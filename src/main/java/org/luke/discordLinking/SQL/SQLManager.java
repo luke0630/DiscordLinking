@@ -6,7 +6,7 @@ import org.luke.discordLinking.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import static org.luke.discordLinking.DiscordLinking.getInstance;
 
 public class SQLManager {
 
@@ -22,7 +22,8 @@ public class SQLManager {
             // MySQLドライバのロード
             Class.forName("com.mysql.cj.jdbc.Driver");
             // データベースへの接続
-            System.out.println(Data.mysqlUserName + "   " + Data.mysqlPassword);
+            getInstance().getLogger().info("データベースに接続しました。");
+            getInstance().getLogger().info("データベース名: {}", Data.mysqlDatabaseName);
             connection = DriverManager.getConnection(url, Data.mysqlUserName, Data.mysqlPassword);
         } catch (Exception ignored) {
 
@@ -67,7 +68,7 @@ public class SQLManager {
 
             executes.add(createTable);
             //<---------------------------------->
-            System.out.println("テーブル " + tableName + " が作成されました。");
+            getInstance().getLogger().info("テーブル{}が作成されました。", tableName);
 
             for (String execute : executes) {
                 statement.executeUpdate(execute);
