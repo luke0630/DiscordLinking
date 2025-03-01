@@ -1,6 +1,5 @@
 package org.luke.discordLinking.SQL;
 
-import org.json.JSONObject;
 import org.luke.discordLinking.Data;
 
 import java.sql.*;
