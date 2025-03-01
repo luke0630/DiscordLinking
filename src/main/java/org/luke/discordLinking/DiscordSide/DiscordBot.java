@@ -59,6 +59,7 @@ public class DiscordBot {
                                 Button.primary("button_current_link", "リンク状況を確認"),
                                 Button.danger("button_unlink", "リンクを解除する")
                         )
+                        .setSuppressedNotifications(true)
                         .queue( message -> selectOptionMessage = message );
             }
         } catch (InterruptedException e) {
