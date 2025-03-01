@@ -5,7 +5,11 @@ import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.luke.discordLinking.Data;
 import org.luke.discordLinking.DiscordLinking;
+import org.luke.discordLinking.DiscordSide.DiscordBot;
+import org.luke.discordLinking.DiscordSide.DiscordBotUtility;
+import org.luke.discordLinking.DiscordSide.RoleAssigner;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -138,7 +142,11 @@ public class SQLUtility {
                             update.executeUpdate();
                         }
 
-
+                        RoleAssigner.assignRole(discordID, Data.discordLinkedRoleID, RoleAssigner.RoleMode.Remove);
+                        DiscordBot.getUserById(discordID, user -> {
+                            DiscordBotUtility.ChangeDisplayNameOnDiscord(DiscordBot.getGuild(), user, null);
+                            DiscordBotUtility.sendUnlinkedMessage(user, targetUUID);
+                        });
                         Optional<Player> player = DiscordLinking.getInstance().getServer().getPlayer(targetUUID);
                         player.ifPresent(value -> value.disconnect(
                                 Component.text(
