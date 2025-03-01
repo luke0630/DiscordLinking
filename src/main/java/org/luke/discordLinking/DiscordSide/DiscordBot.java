@@ -19,6 +19,8 @@ public class DiscordBot {
     private static TextChannel channel;
     @Getter
     private static Message selectOptionMessage;
+    @Getter
+    private static Guild guild;
 
     public static void MainClass() {
         jda = JDABuilder.createDefault(Data.discordBotID)
@@ -31,7 +33,7 @@ public class DiscordBot {
         try {
             jda.awaitReady();
 
-            Guild guild = jda.getGuildById(Data.discordServerID);
+            guild = jda.getGuildById(Data.discordServerID);
             if(guild == null) {
                 System.out.println("サーバーを取得できませんでした。サーバーIDが間違っている可能性があります");
                 return;
