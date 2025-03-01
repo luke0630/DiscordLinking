@@ -148,7 +148,7 @@ public class SQLUtility {
                             DiscordBotUtility.ChangeDisplayNameOnDiscord(DiscordBot.getGuild(), user, null);
                             DiscordBotUtility.sendUnlinkedMessage(user, targetUUID);
                         });
-                        Optional<Player> player = DiscordLinking.getInstance().getServer().getPlayer(targetUUID);
+                        Optional<Player> player = getInstance().getServer().getPlayer(targetUUID);
                         player.ifPresent(value -> value.disconnect(
                                 Component.text(
                                         "リンク解除されたため切断されました。"
