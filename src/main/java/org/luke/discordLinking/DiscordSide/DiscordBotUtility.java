@@ -19,9 +19,7 @@ import static org.luke.discordLinking.DiscordSide.DiscordBot.getMemberById;
 @UtilityClass
 public class DiscordBotUtility {
     public void sendMessageToUser(User user, String message) {
-        user.openPrivateChannel().queue(privateChannel -> {
-            privateChannel.sendMessage(message).queue();
-        } );
+        user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(message).queue());
     }
 
     public void sendUnlinkedMessage(User user, UUID targetUUID) {
