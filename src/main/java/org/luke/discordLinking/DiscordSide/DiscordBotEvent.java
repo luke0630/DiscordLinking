@@ -1,8 +1,5 @@
 package org.luke.discordLinking.DiscordSide;
 
-import com.velocitypowered.api.proxy.Player;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -11,13 +8,10 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
-import net.dv8tion.jda.api.interactions.modals.ModalMapping;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.luke.discordLinking.Data;
 import org.luke.discordLinking.MojangAPI;
-import org.luke.discordLinking.SQL.SQLManager;
 import org.luke.discordLinking.SQL.SQLUtility;
 
 import java.sql.Timestamp;
@@ -25,10 +19,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static net.kyori.adventure.text.Component.text;
-import static org.luke.discordLinking.DiscordLinking.getInstance;
-import static org.luke.discordLinking.DiscordSide.DiscordBot.getGuild;
-import static org.luke.discordLinking.DiscordSide.DiscordBot.getMemberById;
 
 public class DiscordBotEvent extends ListenerAdapter {
 
