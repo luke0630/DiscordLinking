@@ -79,6 +79,13 @@ public class AuthCodeManager {
         }
     }
 
+    public void removeCode(String code) {
+        var map = getAuthDataFromCode(code);
+        if(map != null) {
+            authDataMap.remove(map.getKey());
+        }
+    }
+
     private String sanitizeAuthCode(String inputCode) {
         return inputCode.replaceAll("[^a-zA-Z0-9]", "");
     }
