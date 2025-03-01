@@ -21,7 +21,7 @@ public class AuthCodeManager {
         startCleanupTask();
     }
 
-    private Set<String> usedCodes = new HashSet<>();
+    private final Set<String> usedCodes = new HashSet<>();
 
     public AuthData generateAuthCode(Player player) {
         StringBuilder code = new StringBuilder(chara_count);
