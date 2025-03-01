@@ -3,9 +3,10 @@ package org.luke.discordLinking;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.LoginEvent;
 import com.velocitypowered.api.proxy.Player;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.luke.discordLinking.Auth.AuthData;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
