@@ -32,6 +32,7 @@ import java.util.Objects;
 public class DiscordLinking {
     @Getter
     private final ProxyServer server;
+    @Getter
     private final Logger logger;
     public static YamlDocument settingConfig;
     private static DiscordLinking instance;
