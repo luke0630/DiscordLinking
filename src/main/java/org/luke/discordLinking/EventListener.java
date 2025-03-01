@@ -46,19 +46,32 @@ public class EventListener {
             code.append(authData.getCode());
 
             long left_expiration = (authData.getExpirationTime() - System.currentTimeMillis()) / 1000;
+            Timestamp timestamp = new Timestamp(authData.getExpirationTime());
+            LocalDateTime timestamp_localDateTime = timestamp.toLocalDateTime();
+
+            String left_expiration_string =
+                    String.format(
+                            "%s時:%s分:%s秒",
+                            timestamp_localDateTime.getHour(),
+                            timestamp_localDateTime.getMinute(),
+                            timestamp_localDateTime.getSecond()
+                    );
+
 
             int center_of_code = code.length() / 2;
             code.insert(center_of_code, " ");
 
             player.disconnect(
                     text("", RED)
-                            .append(text("\n超生活鯖のDiscordサーバー内「連携方法」チャンネルをご確認ください。", AQUA))
+                            .append(text("超生活鯖のDiscordサーバー内「連携方法」チャンネルをご確認ください。", AQUA))
                             .append(text("\n\nコード", GOLD))
-                            .append(text("\n" + code, WHITE).decorate(TextDecoration.UNDERLINED))
-                            .append(text("\n\n\nコードの有効時間", RED))
-                            .append(text("\n" + left_expiration + "秒", WHITE))
+                            .append(text("\n" + code, WHITE))
+                            .append(text("\n\nコードの有効時間", RED))
+                            .append(text("\n" + left_expiration_string + "(" + left_expiration + "秒後)に", WHITE))
+                            .append(text("\n無効化されます。", WHITE))
                             .append(text("\n\n※ 参加し直すたびに新しいコードが発行され、", GREEN))
                             .append(text("\n以前のコードは無効になります。", GREEN))
+                            .append(text("\n\n※ コード内の空白は入力しないでください。", GREEN))
             );
         }
     }
