@@ -49,21 +49,19 @@ public class AuthCodeManager {
     }
 
     public void startCleanupTask() {
-        Runnable task = () -> {
-            authDataMap.entrySet().removeIf(entry -> {
-                if (entry.getValue().isExpired()) {
-                    System.out.println(
-                            entry.getValue().getPlayer_displayName() +
-                            "(" +
-                            entry.getKey() +
-                            ")" +
-                            " の認証コードは無効になりました。"
-                    );
-                    return true;
-                }
-                return false;
-            });
-        };
+        Runnable task = () -> authDataMap.entrySet().removeIf(entry -> {
+            if (entry.getValue().isExpired()) {
+                System.out.println(
+                        entry.getValue().getPlayer_displayName() +
+                        "(" +
+                        entry.getKey() +
+                        ")" +
+                        " の認証コードは無効になりました。"
+                );
+                return true;
+            }
+            return false;
+        });
 
         // 期限切れ処理を最適化し、定期的に実行
         scheduler.scheduleAtFixedRate(task, 0, 1, TimeUnit.SECONDS);
