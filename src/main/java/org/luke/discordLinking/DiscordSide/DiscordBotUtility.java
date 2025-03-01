@@ -11,7 +11,9 @@ import org.luke.discordLinking.Data;
 import org.luke.discordLinking.MojangAPI;
 import org.luke.discordLinking.SQL.SQLUtility;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static org.luke.discordLinking.DiscordLinking.getInstance;
 import static org.luke.discordLinking.DiscordSide.DiscordBot.getMemberById;
@@ -44,13 +46,21 @@ public class DiscordBotUtility {
 
         sendMessageToUser(user, message);
     }
-    public void deleteOwnMessages(TextChannel channel) {
+    public void deleteOwnMessages(TextChannel channel, Runnable callback) {
         channel.getIterableHistory().queue(messages -> {
-            for (Message message : messages) {
-                if (message.getAuthor().isBot()) {
-                    message.delete().queue();
-                }
-            }
+            // Bot のメッセージのみをリストにする
+            List<CompletableFuture<Void>> futures = messages.stream()
+                    .filter(message -> message.getAuthor().isBot())
+                    .map(message -> {
+                        CompletableFuture<Void> future = new CompletableFuture<>();
+                        message.delete().queue(future::complete, future::completeExceptionally);
+                        return future;
+                    })
+                    .toList();
+
+            // すべての削除が完了したら callback を実行
+            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                    .thenRun(callback);
         });
     }
 
