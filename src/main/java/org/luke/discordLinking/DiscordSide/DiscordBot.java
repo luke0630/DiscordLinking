@@ -22,6 +22,19 @@ public class DiscordBot {
     @Getter
     private static Guild guild;
 
+    final static ItemComponent[] INIT_MESSAGE_COMPONENT = {
+            Button.success("button_enter_code", "コードを入力"),
+            Button.primary("button_current_link", "リンク状況を確認"),
+            Button.danger("button_unlink", "リンクを解除する")
+    };
+
+    final static String INIT_MESSAGE =
+            "```ansi\n" +
+            "\u001B[0;1;32;1mコードを入力\u001B[0m サーバー接続時に表示されるコードを入力してリンクする\n" +
+            "\u001B[0;1;34;1mリンク状況を確認\u001B[0m リンク状況を確認する\n" +
+            "\u001B[0;1;31;1mリンクを解除する\u001B[0m リンクされているアカウントを選択しそれをリンク解除する\n" +
+            "```";
+
     public static void MainClass() {
         jda = JDABuilder.createDefault(Data.discordBotID)
                 .setRawEventsEnabled(true)
