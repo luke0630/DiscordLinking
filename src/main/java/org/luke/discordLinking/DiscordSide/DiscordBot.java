@@ -20,8 +20,6 @@ public class DiscordBot {
     @Getter
     private static TextChannel channel;
     @Getter
-    private static Message selectOptionMessage;
-    @Getter
     private static Guild guild;
 
     public static void MainClass() {
