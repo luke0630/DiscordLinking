@@ -56,26 +56,17 @@ public class DiscordBot {
             if(channel == null) {
                 getInstance().getLogger().error("テキストチャンネルが見つかりませんでした。チャンネルIDが間違っている可能性があります");
             } else {
-                Member botMember = guild.getSelfMember();
-                if (!botMember.hasPermission(channel, Permission.MESSAGE_SEND)) {
-                    getInstance().getLogger().error("Bot にメッセージ送信権限がありません！");
-                    return;
-                }
+                if(Data.init_message_id != null) {
+                    // メッセージが存在しなかったらメッセージを送信する
+                    channel.retrieveMessageById(Data.init_message_id).queue(message -> {
+                        message.editMessage(INIT_MESSAGE).
+                                setActionRow(INIT_MESSAGE_COMPONENT)
+                                .queue();
 
-                DiscordBotUtility.deleteOwnMessages(channel, () -> {
-                    String initMessage =
-                            "***コードを入力 ->*** マイクラ鯖アクセス時に表示されるコードを入力してリンクする" +
-                                    "\n***リンク状況を確認 ->*** 現在リンクされているアカウントの一覧を確認" +
-                                    "\n***リンクを解除する ->*** アカウントを選択してそのアカウントとのリンクを解除する";
-                    channel.sendMessage(initMessage)
-                            .addActionRow(
-                                    Button.success("button_enter_code", "コードを入力"),
-                                    Button.primary("button_current_link", "リンク状況を確認"),
-                                    Button.danger("button_unlink", "リンクを解除する")
-                            )
-                            .setSuppressedNotifications(true)
-                            .queue( message -> selectOptionMessage = message );
-                });
+                    }, failure -> SendInitMessage());
+                } else {
+                    SendInitMessage();
+                }
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
