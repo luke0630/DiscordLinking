@@ -82,6 +82,23 @@ public class DiscordBot {
         }
     }
 
+    private static void SendInitMessage() {
+        Member botMember = guild.getSelfMember();
+        if (!botMember.hasPermission(channel, Permission.MESSAGE_SEND)) {
+            getInstance().getLogger().error("Bot にメッセージ送信権限がありません！");
+            return;
+        }
+
+        DiscordBotUtility.deleteOwnMessages(channel, () -> {
+            channel.sendMessage(INIT_MESSAGE)
+                    .setActionRow(INIT_MESSAGE_COMPONENT)
+                    .setSuppressedNotifications(true)
+                    .queue( message -> {
+                        DiscordLinking.getInstance().SaveCache(message.getIdLong());
+                    });
+        });
+    }
+
 
     // Use load because guild.getMemberById is cached
     public static void getUserById(Long userId, Consumer<User> callback) {
