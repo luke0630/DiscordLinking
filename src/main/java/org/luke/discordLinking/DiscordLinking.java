@@ -36,7 +36,7 @@ public class DiscordLinking {
     public static YamlDocument settingConfig;
     private static DiscordLinking instance;
 
-    @Getter
+    private static YamlDocument cacheYaml;
 
     private final AuthCodeManager authCodeManager;
 
@@ -74,6 +74,10 @@ public class DiscordLinking {
             settingConfig = YamlDocument.create(new File(dataDirectory.toFile(), "config.yml"),
                     Objects.requireNonNull(getClass().getResourceAsStream("/config.yml"))
             );
+
+            cacheYaml = YamlDocument.create(new File(dataDirectory.toFile(), "cache.yml"),
+                    Objects.requireNonNull(getClass().getResourceAsStream("/cache.yml"))
+            );
         } catch (IOException ignored) {}
 
         Data.discordLinkedRoleID = settingConfig.getLong("discord-server-linked-role-id");
@@ -85,6 +89,17 @@ public class DiscordLinking {
         Data.mysqlPassword = settingConfig.getString("mysql-password");
         Data.mysqlDatabaseName = settingConfig.getString("mysql-database-name");
         Data.effectiveTimeForCode = settingConfig.getInt("code-effective-time-sec");
+
+        Data.init_message_id = cacheYaml.getLong("init-message-id");
+    }
+
+    public void SaveCache(Long message_id) {
+        cacheYaml.set("init-message-id", message_id);
+        try {
+            cacheYaml.save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static DiscordLinking getInstance() {

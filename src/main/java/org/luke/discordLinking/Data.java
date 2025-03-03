@@ -11,4 +11,6 @@ public class Data {
     public static String mysqlPassword = "";
     public static String mysqlDatabaseName = "";
     public static Integer effectiveTimeForCode = 300;
+
+    public static Long init_message_id = null;
 }
