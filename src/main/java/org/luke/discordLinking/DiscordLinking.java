@@ -24,20 +24,20 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
 
+@Getter
 @Plugin(
         id = "discordlinking",
         name = "DiscordLinking",
         version = "1.0"
 )
 public class DiscordLinking {
-    @Getter
     private final ProxyServer server;
-    @Getter
     private final Logger logger;
     public static YamlDocument settingConfig;
     private static DiscordLinking instance;
 
     @Getter
+
     private final AuthCodeManager authCodeManager;
 
     @Inject
