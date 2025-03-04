@@ -9,7 +9,7 @@ import static org.luke.discordLinking.DiscordLinking.getInstance;
 
 public class SQLManager {
 
-    static Connection connection = null;
+    private static Connection connection = null;
     static final String tableName = "linked_data";
     static final String column_discordID = "discord_id";
     static final String column_linked_data = "link_data";
