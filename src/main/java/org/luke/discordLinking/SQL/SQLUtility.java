@@ -6,7 +6,6 @@ import net.kyori.adventure.text.Component;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.luke.discordLinking.Data;
-import org.luke.discordLinking.DiscordLinking;
 import org.luke.discordLinking.DiscordSide.DiscordBot;
 import org.luke.discordLinking.DiscordSide.DiscordBotUtility;
 import org.luke.discordLinking.DiscordSide.RoleAssigner;
@@ -43,33 +42,32 @@ public class SQLUtility {
                     jsonArray.put(getJSONData(mcUUID));
 
                     String sql = "UPDATE "+ tableName +" SET "+ column_linked_data +" = ? WHERE "+ column_discordID +" = ?";
-                    PreparedStatement update = connection.prepareStatement(sql);
+                    try (PreparedStatement update = getConnection().prepareStatement(sql)) {
+                        update.setString(1, jsonArray.toString());
+                        update.setString(2, discordID.toString());
 
-                    update.setString(1, jsonArray.toString());
-                    update.setString(2, discordID.toString());
-
-                    update.executeUpdate();
+                        update.executeUpdate();
+                    }
                 }
             } else {
-                PreparedStatement insert = connection.prepareStatement(
-                        "INSERT INTO " + SQLManager.tableName + " (" + SQLManager.column_discordID + ", " + column_linked_data + ") VALUES (?, ?)"
-                );
+                String sql = "INSERT INTO " + SQLManager.tableName + " (" + SQLManager.column_discordID + ", " + column_linked_data + ") VALUES (?, ?)";
+                try (PreparedStatement insert = getConnection().prepareStatement(sql)) {
+                    jsonArray = new JSONArray();
+                    jsonArray.put(getJSONData(mcUUID));
 
-                jsonArray = new JSONArray();
-                jsonArray.put(getJSONData(mcUUID));
+                    insert.setLong(1, discordID);
+                    insert.setString(2, jsonArray.toString());
 
-                insert.setLong(1, discordID);
-                insert.setString(2, jsonArray.toString());
-
-                insert.executeUpdate();
+                    insert.executeUpdate();
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
     public JSONArray getLinkedDataByDiscordID(Long discordID) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM "+ SQLManager.tableName +" WHERE "+ SQLManager.column_discordID +" = ?");
+        String sql = "SELECT * FROM "+ SQLManager.tableName +" WHERE "+ SQLManager.column_discordID +" = ?";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
             stmt.setLong(1, discordID);
 
             ResultSet rs = stmt.executeQuery();
@@ -95,8 +93,8 @@ public class SQLUtility {
     }
 
     public String getDiscordIdByUUID(UUID mcUUID) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM "+ SQLManager.tableName);
+        String sql = "SELECT * FROM "+ SQLManager.tableName;
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
                 JSONArray jsonArray = new JSONArray(rs.getString(column_linked_data));
@@ -116,8 +114,8 @@ public class SQLUtility {
     }
 
     public boolean unlinkMinecraftAccount(Long discordID, UUID targetUUID) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM "+ SQLManager.tableName +" WHERE " + column_discordID + " = ?");
+        String sql = "SELECT * FROM "+ SQLManager.tableName +" WHERE " + column_discordID + " = ?";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
             stmt.setLong(1, discordID);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
@@ -129,18 +127,21 @@ public class SQLUtility {
                         jsonArray.remove(i);
 
                         if(jsonArray.isEmpty()) {
-                            PreparedStatement update = connection.prepareStatement("DELETE FROM "+ tableName +" WHERE "+ column_discordID +" = ?");
-                            update.setLong(1, discordID);
-                            update.executeUpdate();
+                            String deleteSQL = "DELETE FROM "+ tableName +" WHERE "+ column_discordID +" = ?";
+                            try (PreparedStatement update = getConnection().prepareStatement(deleteSQL)) {
+                                update.setLong(1, discordID);
+                                update.executeUpdate();
+                            }
                         } else {
-                            String sql = "UPDATE "+ tableName +" SET "+ column_linked_data +" = ? WHERE "+ column_discordID +" = ?";
-                            PreparedStatement update = connection.prepareStatement(sql);
-                            update.setLong(1, discordID);
+                            String updateSQL = "UPDATE "+ tableName +" SET "+ column_linked_data +" = ? WHERE "+ column_discordID +" = ?";
+                            try (PreparedStatement update = getConnection().prepareStatement(updateSQL)) {
+                                update.setLong(1, discordID);
 
-                            update.setString(1, jsonArray.toString());
-                            update.setString(2, discordID.toString());
+                                update.setString(1, jsonArray.toString());
+                                update.setString(2, discordID.toString());
 
-                            update.executeUpdate();
+                                update.executeUpdate();
+                            }
                         }
 
                         RoleAssigner.assignRole(discordID, Data.discordLinkedRoleID, RoleAssigner.RoleMode.Remove);
